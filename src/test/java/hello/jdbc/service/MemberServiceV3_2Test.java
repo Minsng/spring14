@@ -20,8 +20,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 트랜잭션 - 트랜잭션 템플릿
  */
 class MemberServiceV3_2Test {
+
+    public static final String MEMBER_A = "memberA";
+    public static final String MEMBER_B = "memberB";
+    public static final String MEMBER_EX = "ex";
+
     private MemberRepositoryV3 memberRepository;
     private MemberServiceV3_2 memberService;
+
     @BeforeEach
     void before() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
@@ -31,12 +37,14 @@ class MemberServiceV3_2Test {
 
         memberService = new MemberServiceV3_2(transactionManager, memberRepository);
     }
+
     @AfterEach
     void after() throws SQLException {
-        memberRepository.delete("memberA");
-        memberRepository.delete("memberB");
-        memberRepository.delete("ex");
+        memberRepository.delete(MEMBER_A);
+        memberRepository.delete(MEMBER_B);
+        memberRepository.delete(MEMBER_EX);
     }
+
     @Test
     @DisplayName("정상 이체")
     void accountTransfer() throws SQLException {
